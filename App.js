@@ -18,9 +18,20 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <Scene key={'home'} title={'Aceeuil'} component={HomeScene} />
-        <Scene key={'rooms'} title={'Rooms'} component={RoomsScene} />
-        <Scene key={'profile'} title={'Utilisateur'} component={ProfileScene} />
+        <Scene
+          navigationBarStyle={{ backgroundColor: '#008489', }}
+          titleStyle={{color: 'white'}}
+          key={'home'}
+          title={'Airbnb'}
+          component={HomeScene} />
+        <Scene
+          key={'rooms'}
+          hideNavBar={true}
+          component={RoomsScene} />
+        <Scene
+          key={'profile'}
+          hideNavBar={true}
+          component={ProfileScene} />
       </Router>
     );
   }
