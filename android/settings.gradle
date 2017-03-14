@@ -1,0 +1,3 @@
+rootProject.name = 'Airbnb_native'
+
+include ':app'
