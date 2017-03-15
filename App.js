@@ -11,7 +11,7 @@ import {
 } from 'react-native-router-flux';
 
 import HomeScene from './src/scenes/HomeScene';
-import RoomsScene from './src/scenes/RoomsScene';
+import RoomScene from './src/scenes/RoomScene';
 import ProfileScene from './src/scenes/ProfileScene';
 
 class App extends React.Component {
@@ -20,17 +20,21 @@ class App extends React.Component {
       <Router>
         <Scene
           navigationBarStyle={{ backgroundColor: '#008489', }}
-          titleStyle={{color: 'white'}}
+          titleStyle={{color: 'white', fontWeight:'bold'}}
           key={'home'}
           title={'Airbnb'}
           component={HomeScene} />
         <Scene
-          key={'rooms'}
-          hideNavBar={true}
-          component={RoomsScene} />
+          navigationBarStyle={{ backgroundColor: '#008489', }}
+          titleStyle={{color: 'white', fontWeight:'bold'}}
+          key={'room'}
+          title={'Room'}
+          component={RoomScene} />
         <Scene
+          navigationBarStyle={{ backgroundColor: '#008489', }}
+          titleStyle={{color: 'white', fontWeight:'bold'}}
           key={'profile'}
-          hideNavBar={true}
+          title={'Profile'}
           component={ProfileScene} />
       </Router>
     );

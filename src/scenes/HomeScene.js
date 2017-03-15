@@ -9,18 +9,16 @@ import {
   Image,
   View,
   TextInput,
-  TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
 import { Actions, } from 'react-native-router-flux';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 70,
+    paddingTop: 75,
     paddingLeft: 20,
     paddingRight: 20,
-    flex : 1,
-    flexDirection: 'column',
   },
 });
 
@@ -36,9 +34,9 @@ class HomeScene extends React.Component {
   componentDidMount() {
     fetch('http://localhost:3001/api/room?city=paris')
       .then((res) => res.json())
-      .then(rooms => {
+      .then(json => {
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(rooms.rooms),
+          dataSource: this.state.dataSource.cloneWithRows(json.rooms),
         });
       });
   }
@@ -46,13 +44,22 @@ class HomeScene extends React.Component {
   renderRooms(rowData) {
     return (
       <View style={{
-        marginTop: 20,
-        marginBottom: 20,
-        marginBorderBottomWidth: 1,
-        marginBorderBottomColor: '#008489',
+        marginTop: 10,
+        marginBottom: 15,
+        borderBottomColor: '#00989E',
+        borderBottomWidth: 1,
+        paddingBottom: 10,
       }}>
-        <TouchableHighlight
-          onPress={() => Actions.rooms()}>
+        <TouchableOpacity
+          onPress={() => Actions.room({
+            title: rowData.title,
+            price:rowData.price,
+            ratingValue:rowData.ratingValue,
+            description:rowData.description,
+            reviews:rowData.reviews,
+            photoRoom:rowData.photos[0],
+            userPhoto:rowData.user.account.photos[0],
+            })}>
             <View>
               <Image
                 source={{ uri: rowData.photos[0] }}
@@ -60,23 +67,34 @@ class HomeScene extends React.Component {
                   width: 340,
                   height: 190,
                 }} />
-              <Text style={{fontWeight: 'bold'}}>{rowData.price} €</Text>
-              <Text>{rowData.title}</Text>
-              <Text style={{color: '#008489'}}>{'★'.repeat(rowData.ratingValue)}{'☆'.repeat(5-(rowData.ratingValue))}</Text>
-              <Text>{rowData.reviews} commentaires</Text>
+                <View>
+                  <Text style={{fontWeight: 'bold'}}>{rowData.price} €</Text>
+                  <Text>{rowData.title}</Text>
+                  <Text style={{color: '#008489'}}>{'★'.repeat(rowData.ratingValue)}{'☆'.repeat(5-(rowData.ratingValue))}</Text>
+                  <Text>{rowData.reviews} commentaires</Text>
+                </View>
             </View>
-        </TouchableHighlight>
-        <Image
-          source={{ uri: rowData.user.account.photos[0] }}
-          style={{
-            width: 50,
-            height: 50,
-            borderWidth: 1,
-            borderColor: '#FFF',
-            borderRadius: 25,
-          }} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => Actions.profile({
+            userPhoto:rowData.user.account.photos[0],
+            userName: rowData.user.account.username,
+            userDescription: rowData.user.account.description,
+            userflat: rowData.user.account.rooms[0],
+            userfavorites: rowData.user.account.favorites[0],
+            })}>
+            <Image
+              source={{ uri: rowData.user.account.photos[0] }}
+              style={{
+                width: 50,
+                height: 50,
+                borderWidth: 1,
+                borderColor: '#FFF',
+                borderRadius: 25,
+              }} />
+        </TouchableOpacity>
       </View>
-  );
+    );
   }
 
   render() {
